@@ -5,6 +5,7 @@ import CourseInput from './CourseInput.jsx';
 import Result from './ResultList.jsx';
 import CGPA from './CGPACalculator.jsx';
 import UploadCourses from './UploadCourses.jsx';
+import ShowResult from './ShowResult.jsx';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='uploadCourses' element={<UploadCourses />} />
           <Route path='Result' element={<Result />} />
           <Route path='CourseInput' element={<CGPA />} />
+          <Route path='cgpa' element= {<ShowResult />} />
         </Routes>
       </main>
     </div>
