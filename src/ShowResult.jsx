@@ -1,12 +1,11 @@
 import React from 'react'
 
-const ShowResult = ({CGPA}) => {
+const ShowResult = ({cgpa}) => {
   return (
     <div>
-      <p>{CGPA}</p>
+      <p>Your CGPA is : {cgpa}</p>
     </div>
   )
 }
 
 export default ShowResult
-{CGPA}

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import ShowResult from './ShowResult';
 
 const Result = () => {
     const { state } = useLocation();
     const { courses, scores, grades, noOfCourses } = state || { courses: [], scores: [], grades: [], noOfCourses: 1 };
+    const [showResult,setShowResult] = useState(false)
+    const [cgpa,setCgpa] = useState(null)
 
     const calculateCGPA = () => {
         let totalGradePoints = 0;
@@ -33,7 +35,11 @@ const Result = () => {
         });
 
         const CGPA = totalGradePoints / totalUnits;
-        alert(`Your CGPA is: ${CGPA.toFixed(2)}`);
+        setCgpa(CGPA.toFixed(2));
+        setShowResult(true)
+
+        // alert(`Your CGPA is: ${CGPA.toFixed(2)}`);
+    
     };
 
     return (
@@ -50,6 +56,7 @@ const Result = () => {
                 ))}
                 <button onClick={calculateCGPA}>Generate CGPA</button>
                {/* <p>{`Your CGPA is ${}`}</p> */}
+               {ShowResult && cgpa && <ShowResult  cgpa = {cgpa}/>}
 
             </div>
         </div>
