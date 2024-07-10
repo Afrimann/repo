@@ -18,7 +18,7 @@ const UploadCourses = () => {
     const [grades, setGrades] = useState(initialGrades);
 
     const handleCourseChange = (index, value) => {
-        const newCourses = [...courses];o
+        const newCourses = [...courses];
         newCourses[index] = value;
         setCourses(newCourses);
     };
