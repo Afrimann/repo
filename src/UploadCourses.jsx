@@ -50,7 +50,7 @@ const UploadCourses = () => {
             alert('Please fill out all fields.');
         }
     };
-
+// 82956dff
     return (
         <div className='UploadCourses'>
             <div className="container">
