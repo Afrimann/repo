@@ -10,6 +10,10 @@ body, html, #root {
   body {
     background-color: #f4f4f9;
     color: #333;
+    /* background-image :  url(./gettyimages-1195748946-612x612.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
   }
   
   /* Container for the entire application */
@@ -23,6 +27,7 @@ body, html, #root {
   /* Form container */
   .questForm {
     background: white;
+    /* opacity: .8; */
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -31,6 +36,10 @@ body, html, #root {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    /* background-image :  url(./gettyimages-1195748946-612x612.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
   }
   
   /* Individual form lines */

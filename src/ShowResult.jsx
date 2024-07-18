@@ -9,3 +9,4 @@ const ShowResult = ({cgpa}) => {
 }
 
 export default ShowResult
+

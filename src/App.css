@@ -10,6 +10,10 @@ body, html, #root {
   body {
     background-color: #f4f4f9;
     color: #333;
+    /* background-image :  url(./university-of-ibadan-entrance.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
   }
   
   /* Container for the entire application */

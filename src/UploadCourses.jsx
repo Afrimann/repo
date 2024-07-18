@@ -16,6 +16,8 @@ const UploadCourses = () => {
     const [courses, setCourses] = useState(initialCourses);
     const [scores, setScores] = useState(initialScores);
     const [grades, setGrades] = useState(initialGrades);
+    const [genCGPA,setGenCGPA] = useState('')
+
 
     const handleCourseChange = (index, value) => {
         const newCourses = [...courses];
@@ -42,14 +44,11 @@ const UploadCourses = () => {
             navigate('/Result', {
                 state: { courses, scores, grades, noOfCourses }
             });
-            // console.log(scores)
-            // console.log(grades)
-
-
         } else {
             alert('Please fill out all fields.');
         }
     };
+
 // 82956dff
     return (
         <div className='UploadCourses'>
