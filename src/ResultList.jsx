@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 import ShowResult from './ShowResult';
 
 const Result = () => {
@@ -7,11 +8,19 @@ const Result = () => {
     const { courses, scores, grades } = state || { courses: [], scores: [], grades: [] };
     const [showResult, setShowResult] = useState(false);
     const [cgpa, setCgpa] = useState(null);
+    const [showButton,setShowButton] = useState(true)
+    const [showPrint,setShowPrint] = useState(false)
     const [remarks, setRemarks] = useState(Array(courses.length).fill(''));
+    const componentRef = useRef()
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
     const displayRemark = (score) => {
         return score >= 45 ? 'Passed' : 'Failed';
     };
+
 
     const calculateCGPA = () => {
         let totalGradePoints = 0;
@@ -46,17 +55,22 @@ const Result = () => {
         setCgpa(CGPA.toFixed(2));
         setRemarks(newRemarks);
         setShowResult(true);
+        setShowButton(false)
+        setShowPrint(true)
         console.log(newRemarks); // Debugging log to check the remarks array
     };
+
+
 
     useEffect(() => {
         console.log("Remarks updated: ", remarks); // Debugging log to check remarks on update
     }, [remarks]);
 
+
     return (
         <div className="Result">
             <h1>Result</h1>
-            <div>
+            <div ref={componentRef}>
                 {courses.map((course, index) => (
                     <div key={index}>
                         <h2>Course {index + 1}</h2>
@@ -66,8 +80,11 @@ const Result = () => {
                         <p>Remark: {remarks[index]}</p>
                     </div>
                 ))}
-                <button onClick={calculateCGPA}>Generate CGPA</button>
+               <div className="buttons" style={{display: 'flex', flexDirection:'column',gap:'10px'}}>
+               {showButton && <button onClick={calculateCGPA}>Generate CGPA</button>}
                 {showResult && cgpa && <ShowResult cgpa={cgpa} />}
+                {showPrint && <button onClick={handlePrint}>Print Result</button>}
+               </div>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+// import { useReactToPrint } from 'react-to-print'
 import './UploadCourses.css'
 const UploadCourses = () => {
     const { state } = useLocation();
@@ -8,6 +9,7 @@ const UploadCourses = () => {
     const noOfCourses = state?.noOfCourses || 1;
     const matricNo = state?.matric;
     const navigate = useNavigate();
+    // const componentRef = useRef()
 
     const initialCourses = Array.from({ length: noOfCourses }, () => '');
     const initialScores = Array.from({ length: noOfCourses }, () => '');
