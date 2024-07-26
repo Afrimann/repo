@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from './Firebase.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import { useReactToPrint } from 'react-to-print'
-import './UploadCourses.css'
+import './UploadCourses.css';
+
 const UploadCourses = () => {
     const { state } = useLocation();
     const name = state?.name;
@@ -9,7 +11,24 @@ const UploadCourses = () => {
     const noOfCourses = state?.noOfCourses || 1;
     const matricNo = state?.matric;
     const navigate = useNavigate();
-    // const componentRef = useRef()
+    const [allCourses, setAllCourses] = useState([]);
+    const coursesCollectionRef = collection(db, 'courses');
+
+    useEffect(() => {
+        const getAllCourses = async () => {
+            try {
+                const course = await getDocs(coursesCollectionRef);
+                const filteredCourses = course.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                setAllCourses(filteredCourses);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        getAllCourses();
+    }, []);
 
     const initialCourses = Array.from({ length: noOfCourses }, () => '');
     const initialScores = Array.from({ length: noOfCourses }, () => '');
@@ -18,8 +37,6 @@ const UploadCourses = () => {
     const [courses, setCourses] = useState(initialCourses);
     const [scores, setScores] = useState(initialScores);
     const [grades, setGrades] = useState(initialGrades);
-    const [genCGPA,setGenCGPA] = useState('')
-
 
     const handleCourseChange = (index, value) => {
         const newCourses = [...courses];
@@ -41,17 +58,15 @@ const UploadCourses = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Validation logic
         if (courses.every(course => course) && scores.every(score => score) && grades.every(grade => grade)) {
             navigate('/Result', {
-                state: { courses, scores, grades, noOfCourses }
+                state: { courses, scores, grades, noOfCourses },
             });
         } else {
             alert('Please fill out all fields.');
         }
     };
 
-// 82956dff
     return (
         <div className='UploadCourses'>
             <div className="container">
@@ -65,13 +80,17 @@ const UploadCourses = () => {
                         {Array.from({ length: noOfCourses }).map((_, index) => (
                             <div key={index} className={`course-${index + 1}`}>
                                 <label htmlFor={`course${index + 1}`}>Course {index + 1}</label>
-                                <input
-                                    type='text'
+                                <select
+                                    name="course"
                                     id={`course-${index + 1}`}
-                                    placeholder={`Enter Course ${index + 1}`}
                                     value={courses[index]}
                                     onChange={(e) => handleCourseChange(index, e.target.value)}
-                                />
+                                >
+                                    <option value="">{`Select Course ${index + 1}`}</option>
+                                    {allCourses.map((course) => (
+                                        <option key={course.id} value={course.title}>{course.title}</option>
+                                    ))}
+                                </select>
                                 <input
                                     type='number'
                                     placeholder={`Enter Score ${index + 1}`}
@@ -88,7 +107,7 @@ const UploadCourses = () => {
                                     <option value="4">4 units</option>
                                     <option value="3">3 units</option>
                                     <option value="2">2 units</option>
-                                    <option value="1">1 units</option>
+                                    <option value="1">1 unit</option>
                                 </select>
                             </div>
                         ))}
