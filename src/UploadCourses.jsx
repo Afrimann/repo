@@ -12,6 +12,7 @@ const UploadCourses = () => {
     const matricNo = state?.matric;
     const navigate = useNavigate();
     const [allCourses, setAllCourses] = useState([]);
+    // const [gradeUnit,setGradeUnit] = useState([])
     const coursesCollectionRef = collection(db, 'courses');
 
     useEffect(() => {

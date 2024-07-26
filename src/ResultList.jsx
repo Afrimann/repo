@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import ShowResult from './ShowResult';
+import './Result.css'
 
 const Result = () => {
     const { state } = useLocation();
@@ -71,7 +72,7 @@ const Result = () => {
         <div className="Result">
             <h1>Result</h1>
             <div ref={componentRef}>
-                {courses.map((course, index) => (
+                {/* {courses.map((course, index) => (
                     <div key={index}>
                         <h2>Course {index + 1}</h2>
                         <p>Course Name: {course}</p>
@@ -79,7 +80,28 @@ const Result = () => {
                         <p>Grade: {grades[index]} units</p>
                         <p>Remark: {remarks[index]}</p>
                     </div>
-                ))}
+                ))} */}
+                <div className="result">
+            <h1>Result Summary</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Score</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {courses.map((course, index) => (
+                        <tr key={index}>
+                            <td>{course}</td>
+                            <td>{scores[index]}</td>
+                            <td>{grades[index]}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
                <div className="buttons" style={{display: 'flex', flexDirection:'column',gap:'10px'}}>
                {showButton && <button onClick={calculateCGPA}>Generate CGPA</button>}
                 {showResult && cgpa && <ShowResult cgpa={cgpa} />}
