@@ -20,7 +20,7 @@ const App = () => {
           <Route path='uploadCourses' element={<UploadCourses />} />
           <Route path='Result' element={<Result />} />
           <Route path='CourseInput' element={<CGPA />} />
-          <Route path='cgpa' element= {<ShowResult />} />
+          <Route path='cgpa' element={<ShowResult />} />
         </Routes>
       </main>
     </div>
