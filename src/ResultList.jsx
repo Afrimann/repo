@@ -22,7 +22,7 @@ const Result = () => {
         return score >= 45 ? 'Passed' : 'Failed';
     };
 
-
+    let gradePoint;
     const calculateCGPA = () => {
         let totalGradePoints = 0;
         let totalUnits = 0;
@@ -47,7 +47,7 @@ const Result = () => {
 
             newRemarks[index] = displayRemark(score);
 
-            const gradePoint = scorePoint * grade;
+            gradePoint = scorePoint * grade;
             totalGradePoints += gradePoint;
             totalUnits += grade;
         });
@@ -89,6 +89,8 @@ const Result = () => {
                         <th>Course</th>
                         <th>Score</th>
                         <th>Grade</th>
+                        {/* <th>Grade Point</th> */}
+                        <th>Remark</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,6 +99,8 @@ const Result = () => {
                             <td>{course}</td>
                             <td>{scores[index]}</td>
                             <td>{grades[index]}</td>
+                            {/* <td>{gradePoint}</td> */}
+                            <td>{remarks[index]}</td>
                         </tr>
                     ))}
                 </tbody>

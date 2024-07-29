@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from './Firebase.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 import './UploadCourses.css';
+import Image1 from './imageCGPA1.jpg';
+import Image2 from './IMGCGPA2.jpg';
+import Image3 from './imagecgpa3.jpg'
+import Spinner from './Spinner'; // Assume you have a Spinner component for loading indication
 
 const UploadCourses = () => {
     const { state } = useLocation();
@@ -12,8 +17,8 @@ const UploadCourses = () => {
     const matricNo = state?.matric;
     const navigate = useNavigate();
     const [allCourses, setAllCourses] = useState([]);
-    // const [gradeUnit,setGradeUnit] = useState([])
     const coursesCollectionRef = collection(db, 'courses');
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         const getAllCourses = async () => {
@@ -29,6 +34,14 @@ const UploadCourses = () => {
             }
         };
         getAllCourses();
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagesToDisp.length);
+        }, 5000);
+
+        return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
 
     const initialCourses = Array.from({ length: noOfCourses }, () => '');
@@ -68,6 +81,14 @@ const UploadCourses = () => {
         }
     };
 
+    const imagesToDisp = [
+        { id: 1, image: Image3 },
+        { id: 2, image: Image1 },
+        { id: 3, image: Image3 },
+        { id: 4, image: Image1 },
+        { id: 5, image: Image3 }
+    ];
+
     return (
         <div className='UploadCourses'>
             <div className="container">
@@ -76,47 +97,56 @@ const UploadCourses = () => {
                     <span>Department : {dept}</span>
                     <span>Matric Number : {matricNo}</span>
                 </div>
-                <div className="uploadCourses" style={{ display: 'flex', gap: '20px' }}>
-                    <form onSubmit={handleSubmit}>
-                        {Array.from({ length: noOfCourses }).map((_, index) => (
-                            <div key={index} className={`course-${index + 1}`}>
-                                <label htmlFor={`course${index + 1}`}>Course {index + 1}</label>
-                                <select
-                                    name="course"
-                                    id={`course-${index + 1}`}
-                                    value={courses[index]}
-                                    onChange={(e) => handleCourseChange(index, e.target.value)}
-                                >
-                                    <option value="">{`Select Course ${index + 1}`}</option>
-                                    {allCourses.map((course) => (
-                                        <option key={course.id} value={course.title}>{course.title}</option>
-                                    ))}
-                                </select>
-                                <input
-                                    type='number'
-                                    placeholder={`Enter Score ${index + 1}`}
-                                    value={scores[index]}
-                                    onChange={(e) => handleScoreChange(index, e.target.value)}
-                                />
-                                <select
-                                    name="grade"
-                                    id={`grade-${index + 1}`}
-                                    value={grades[index]}
-                                    onChange={(e) => handleGradeChange(index, e.target.value)}
-                                >
-                                    <option value="">{`Select Grade ${index + 1}`}</option>
-                                    <option value="4">4 units</option>
-                                    <option value="3">3 units</option>
-                                    <option value="2">2 units</option>
-                                    <option value="1">1 unit</option>
-                                </select>
+                    <div className="uploadCourses" style={{ display: 'flex', gap: '20px' }}>
+                        <form onSubmit={handleSubmit}>
+                            {Array.from({ length: noOfCourses }).map((_, index) => (
+                                <div key={index} className={`course-${index + 1}`}>
+                                    <label htmlFor={`course${index + 1}`}>Course {index + 1}</label>
+                                    <select
+                                        name="course"
+                                        id={`course-${index + 1}`}
+                                        value={courses[index]}
+                                        onChange={(e) => handleCourseChange(index, e.target.value)}
+                                    >
+                                        <option value="">{`Select Course ${index + 1}`}</option>
+                                        {allCourses.map((course) => (
+                                            <option key={course.id} value={course.title}>{course.title}</option>
+                                        ))}
+                                    </select>
+                                    <input
+                                        type='number'
+                                        placeholder={`Enter Score ${index + 1}`}
+                                        value={scores[index]}
+                                        onChange={(e) => handleScoreChange(index, e.target.value)}
+                                    />
+                                    <select
+                                        name="grade"
+                                        id={`grade-${index + 1}`}
+                                        value={grades[index]}
+                                        onChange={(e) => handleGradeChange(index, e.target.value)}
+                                    >
+                                        <option value="">{`Select Grade ${index + 1}`}</option>
+                                        <option value="4">4 units</option>
+                                        <option value="3">3 units</option>
+                                        <option value="2">2 units</option>
+                                        <option value="1">1 unit</option>
+                                    </select>
+                                </div>
+                            ))}
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+
+                    {/* <div className="disp_img">
+                        <LazyLoad height={600} offset={100} placeholder={<Spinner />}>
+                            <div key={imagesToDisp[currentImageIndex].id} className="img" style={{ height: '400px', width: '300px' }}>
+                                <img style={{ width: '100%' }} src={imagesToDisp[currentImageIndex].image} alt="image" />
                             </div>
-                        ))}
-                        <button type="submit">Submit</button>
-                    </form>
+                        </LazyLoad>
+                    </div> */}
                 </div>
             </div>
-        </div>
+
     );
 };
 
